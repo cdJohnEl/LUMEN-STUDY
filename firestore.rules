@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Your courses, topics, saved PDF text, study sessions, focus logs and device tokens.
+    match /users/{uid}/courses/{path=**}   { allow read, write: if request.auth != null && request.auth.uid == uid; }
+    match /users/{uid}/sessions/{path=**}  { allow read, write: if request.auth != null && request.auth.uid == uid; }
+    match /users/{uid}/focusLogs/{path=**} { allow read, write: if request.auth != null && request.auth.uid == uid; }
+    match /users/{uid}/tokens/{path=**}    { allow read, write: if request.auth != null && request.auth.uid == uid; }
+
+    // Quizzes and attempts are written by the server only. You can read them, never edit your own scores.
+    match /users/{uid}/quizzes/{path=**}   { allow read: if request.auth != null && request.auth.uid == uid; }
+    match /users/{uid}/attempts/{path=**}  { allow read: if request.auth != null && request.auth.uid == uid; }
+
+    // Quiz answer keys: nobody on the client can read them (that is what keeps answers hidden).
+    match /users/{uid}/quizPrivate/{path=**} { allow read, write: if false; }
+
+    // Reminder queue read by the server. You can only create or remove your own.
+    match /reminders/{id} {
+      allow create, update: if request.auth != null && request.resource.data.uid == request.auth.uid;
+      allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow read: if false;
+    }
+  }
+}

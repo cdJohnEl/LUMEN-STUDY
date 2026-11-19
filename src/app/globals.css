@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --safe-b: env(safe-area-inset-bottom, 0px); }
+html { -webkit-tap-highlight-color: transparent; }
+body { @apply bg-canvas font-sans text-ink antialiased; }
+:focus-visible { outline: 3px solid #8F7CF5; outline-offset: 2px; border-radius: 12px; }
+
+@layer components {
+  .card { @apply rounded-3xl bg-white shadow-soft; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold transition active:scale-[.98] disabled:opacity-50 disabled:pointer-events-none; }
+  .btn-ink { @apply btn bg-ink text-white hover:bg-black; }
+  .btn-amber { @apply btn bg-amber-brand text-ink shadow-glow hover:brightness-105; }
+  .btn-ghost { @apply btn border border-line bg-white text-ink hover:bg-canvas; }
+  .field { @apply w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm outline-none focus:border-violet-400; }
+  .g-peach { background: linear-gradient(135deg, #FBC4C4 0%, #F6C97A 100%); }
+  .g-lilac { background: linear-gradient(135deg, #D4C8FF 0%, #9C8DF6 100%); }
+  .g-mint  { background: linear-gradient(135deg, #A6E8D0 0%, #BDEFE0 100%); }
+  .g-sky   { background: linear-gradient(135deg, #BDD0F2 0%, #94ABDF 100%); }
+  .ring-art { background-image: radial-gradient(circle at 80% 20%, rgba(255,255,255,.35) 0 38px, transparent 39px), radial-gradient(circle at 70% 60%, rgba(255,255,255,.2) 0 70px, transparent 71px); }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
